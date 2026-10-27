@@ -1,0 +1,17 @@
+{
+  "queues": {
+    "IN": {"hr": "HR India - Business Partners", "payroll": "Payroll India", "sla_hours": 8},
+    "UK": {"hr": "HR UK - Business Partners", "payroll": "Payroll UK", "sla_hours": 8},
+    "US": {"hr": "HR US - Business Partners", "payroll": "Payroll US", "sla_hours": 8},
+    "ER": {"hr": "Employee Relations (confidential)", "sla_hours": 4},
+    "CW": {"hr": "Contingent Workforce desk", "sla_hours": 16}
+  },
+  "it_helpdesk": "IT Service Desk: ServiceNow > IT > Access & Devices, or Teams chat 'IT Help'",
+  "speak_up": "Speak Up line (independent, 24x7, anonymous reports accepted)",
+  "eap": "Employee Assistance Programme (free, confidential, 24x7)",
+  "emergency": {
+    "IN": "Tele-MANAS 14416 (24x7 mental health helpline) or emergency 112",
+    "UK": "Samaritans 116 123 (24x7) or emergency 999",
+    "US": "988 Suicide & Crisis Lifeline (call or text 988) or emergency 911"
+  }
+}

@@ -1,0 +1,18 @@
+# Only the capstone deliverables are published.
+/*
+!/.gitignore
+!/README.md
+!/1. Problem Discovery - HR Policy Assistant.xlsx
+!/2. AI Opportunity Map - HR Policy Assistant.xlsx
+!/2. AI Opportunity Map - HR Policy Assistant (Miro Import).csv
+!/3. AI PRD - AskHR HR Policy Assistant.docx
+!/4. Cost Estimation - HR Policy Assistant.xlsx
+!/6. Presentation - AskHR HR Policy Assistant.pptx
+!/prototype/
+
+# Never commit secrets or build output
+.env
+.env.*
+!.env.example
+node_modules/
+.vercel/

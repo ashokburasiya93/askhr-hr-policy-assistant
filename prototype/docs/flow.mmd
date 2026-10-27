@@ -1,0 +1,24 @@
+flowchart TD
+  A[Employee asks in Teams<br/>English, Hindi or Hinglish] --> B[Load Workday profile<br/>country, grade, type, service]
+  B --> C{Safety triage<br/>rules, before any AI}
+  C -->|Crisis| C1[Emergency numbers + ER ticket<br/>sent immediately]
+  C -->|Harassment, grievance| C2[Confidential ER ticket draft<br/>or anonymous Speak Up]
+  C -->|Medical, bereavement, legal,<br/>layoff, performance, resignation| C3[HR partner ticket draft<br/>employee approves send]
+  C -->|Pay problem| C4[Payroll ticket draft]
+  C -->|IT, other people's data| C5[Redirect or refuse]
+  C -->|Policy question| D{Asks about another<br/>country's policy?}
+  D -->|Yes| D1[Say it only covers own country<br/>offer HR partner]
+  D -->|No| E[Eligibility filter<br/>own country + global, audience,<br/>live today, superseded removed]
+  E --> F[Retrieve top sections<br/>BM25 + synonyms, later hybrid]
+  F --> G{Relevant section found?}
+  G -->|No| G1[Not in policy library<br/>offer HR partner, never guess]
+  G -->|Yes| H[Grok drafts JSON answer with citations<br/>Claude Haiku fallback]
+  H --> I{Verification<br/>cited, numbers grounded,<br/>no promise, no legal advice}
+  I -->|Fail| I1[Extractive answer:<br/>quote the policy section]
+  I -->|Pass| J[Answer + section links<br/>+ non-commitment wording]
+  I1 --> J
+  J --> K[Redacted log + feedback<br/>thumbs down to policy owner]
+  C1 --> K
+  C2 --> K
+  C3 --> K
+  C4 --> K

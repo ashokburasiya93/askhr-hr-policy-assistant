@@ -1,0 +1,10 @@
+[
+  {"id": "E1001", "name": "Priya Sharma", "country": "IN", "location": "Bengaluru", "grade": "G3", "employment_type": "employee", "joining_date": "2022-07-18", "language": "en", "hrbp": "Anjali Rao (HRBP India)"},
+  {"id": "E1002", "name": "Rohit Kulkarni", "country": "IN", "location": "Pune", "grade": "G5", "employment_type": "employee", "joining_date": "2019-02-04", "language": "hi-en", "hrbp": "Anjali Rao (HRBP India)"},
+  {"id": "C2001", "name": "Arjun Mehta", "country": "IN", "location": "Hyderabad", "grade": "N/A", "employment_type": "contractor", "joining_date": "2026-05-12", "language": "en", "hrbp": "Contingent Workforce desk"},
+  {"id": "E3001", "name": "Emma Clarke", "country": "UK", "location": "London", "grade": "G4", "employment_type": "employee", "joining_date": "2020-09-01", "language": "en", "hrbp": "Tom Bennett (HRBP UK)"},
+  {"id": "E3002", "name": "Oliver Grant", "country": "UK", "location": "Manchester", "grade": "G6", "employment_type": "employee", "joining_date": "2016-03-14", "language": "en", "hrbp": "Tom Bennett (HRBP UK)"},
+  {"id": "E4001", "name": "Sarah Johnson", "country": "US", "location": "San Francisco, CA", "grade": "G4", "employment_type": "employee", "joining_date": "2021-11-08", "language": "en", "hrbp": "Kevin Lee (HRBP US)"},
+  {"id": "E4002", "name": "Marcus Brown", "country": "US", "location": "Austin, TX", "grade": "G2", "employment_type": "employee", "joining_date": "2025-06-02", "language": "en", "hrbp": "Kevin Lee (HRBP US)"},
+  {"id": "C5001", "name": "Dana Whitfield", "country": "US", "location": "Remote, NY", "grade": "N/A", "employment_type": "contractor", "joining_date": "2026-01-20", "language": "en", "hrbp": "Contingent Workforce desk"}
+]

@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AskHR Policy Assistant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">A</div>
+      <div>
+        <div class="brand-name">AskHR</div>
+        <div class="brand-sub">Brightpath HR policy assistant · prototype on synthetic data</div>
+      </div>
+    </div>
+    <nav class="tabs" role="tablist">
+      <button class="tab active" data-tab="chat">Employee chat</button>
+      <button class="tab" data-tab="queue">HR partner queue <span id="queue-count" class="pill">0</span></button>
+      <button class="tab" data-tab="library">Policy library</button>
+      <button class="tab" data-tab="quality">Quality checks</button>
+    </nav>
+    <div id="mode-badge" class="mode-badge">Loading…</div>
+  </header>
+
+  <main>
+    <!-- CHAT -->
+    <section id="tab-chat" class="tab-panel active">
+      <aside class="persona-panel">
+        <div class="panel-title">Signed in as</div>
+        <div class="hint">Simulates Teams sign-in. Country, grade and employment type come from the Workday profile, never from the chat.</div>
+        <div id="persona-list"></div>
+        <div class="panel-title mt">Try a question</div>
+        <div id="suggestions"></div>
+      </aside>
+
+      <div class="chat-col">
+        <div class="chat-header">
+          <div class="avatar bot">A</div>
+          <div>
+            <div class="chat-title">AskHR</div>
+            <div class="chat-sub" id="chat-sub">Answers from your country's live HR policies, with a link to the exact section.</div>
+          </div>
+        </div>
+        <div id="messages" class="messages" aria-live="polite"></div>
+        <form id="composer" class="composer">
+          <input id="input" autocomplete="off" placeholder="Ask about leave, pay dates, benefits or travel…" maxlength="2000" />
+          <button type="submit" id="send">Send</button>
+        </form>
+        <div class="privacy-note">Private: personal details and health information are removed before anything is logged. Sensitive topics go only to a named HR team.</div>
+      </div>
+
+      <aside class="why-panel">
+        <div class="panel-title">Why this answer</div>
+        <div id="why" class="why-empty">Ask a question to see the profile used, what was searched, the sources and the safety checks.</div>
+      </aside>
+    </section>
+
+    <!-- QUEUE -->
+    <section id="tab-queue" class="tab-panel">
+      <div class="page">
+        <h2>HR partner queue</h2>
+        <p class="lead">Hand-offs arrive with a short summary, so the employee never has to repeat themselves. Employee Relations items are visible only to that team. In production these are ServiceNow tickets.</p>
+        <div id="queue"></div>
+      </div>
+    </section>
+
+    <!-- LIBRARY -->
+    <section id="tab-library" class="tab-panel">
+      <div class="page">
+        <h2>Policy library</h2>
+        <p class="lead">Each country HR lead owns their documents. The assistant only searches documents that are <b>live today</b> for the employee's own country (plus global policies), and filters out superseded versions before ranking.</p>
+        <div id="library"></div>
+      </div>
+    </section>
+
+    <!-- QUALITY -->
+    <section id="tab-quality" class="tab-panel">
+      <div class="page">
+        <h2>Quality checks</h2>
+        <p class="lead">Launch evals from the PRD, run on every build. If any guardrail eval falls below 100%, the build fails and nothing deploys.</p>
+        <div id="quality"></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

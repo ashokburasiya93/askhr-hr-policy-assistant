@@ -1,0 +1,91 @@
+﻿Frame,Type,Title,Text,Color,Impact,Feasibility,Score,Quadrant
+1 Header,Sticky,Persona,"Meera, HR business partner in Bengaluru (one of 12 HRBPs: 6 India, 3 UK, 3 US). Answers leave, pay, benefits and travel questions by email, Teams and ServiceNow; also owns the sensitive cases for ~600 employees.",yellow,,,,
+1 Header,Sticky,Root cause,"Brightpath does not lack HR policies; it lacks a single trusted, version-controlled source joined to who is asking. 40 documents, no owner, no effective dates, no audience tags, so every routine question needs a person to work out country, grade, contract and the live version.",yellow,,,,
+1 Header,Sticky,Evidence,"~2,500 questions a month (4,000 in March and November); 18 min and $10.50 each (≈ $26k a month); 1.5 working days to first reply; 40% of HRBP time on repeat questions; 8% of answers wrong (wrong country or old version); 10% of India questions in Hindi/Hinglish; 700 contractors on different terms; employees avoid asking sensitive questions.",yellow,,,,
+1 Header,Sticky,Goal,"Find where AI safely answers routine policy questions and where it must hand off, score the options, and scope an MVP that hits the CHRO targets (60% resolved without an HRBP; repeat-question time 40% → 20%) without breaking Legal, privacy or the HRBP relationship.",yellow,,,,
+2 Workflow,Sticky,S1 Employee asks | Today,"Email, Teams chat or ServiceNow ticket, any time; often in Hinglish; sensitive details shared in free text.",gray,,,,
+2 Workflow,Sticky,S1 Employee asks | Pain,"Waits 1.5 working days; doesn't know who will read a sensitive message, so avoids asking.",red,,,,
+2 Workflow,Sticky,S1 Employee asks | AI opportunities,"O1, O9, O12",light_green,,,,
+2 Workflow,Sticky,S2 Work out who is asking | Today,"HRBP checks Workday: country, grade, employee or contractor, joining date.",gray,,,,
+2 Workflow,Sticky,S2 Work out who is asking | Pain,Manual lookups every time; contractors (700) answered with employee terms by mistake.,red,,,,
+2 Workflow,Sticky,S2 Work out who is asking | AI opportunities,O2,light_green,,,,
+2 Workflow,Sticky,S3 Find the right policy | Today,"Search ~300 pages in 40 SharePoint documents; some scanned PDFs, key rules in tables.",gray,,,,
+2 Workflow,Sticky,S3 Find the right policy | Pain,Two travel versions live at once; superseded files still visible; tables keyed by grade; the main source of the 8% wrong answers.,red,,,,
+2 Workflow,Sticky,S3 Find the right policy | AI opportunities,"O3, O4, O13",light_green,,,,
+2 Workflow,Sticky,S4 Check personal data | Today,"Workday for leave balance, joining date, benefits plan.",gray,,,,
+2 Workflow,Sticky,S4 Check personal data | Pain,Balance questions (part of the 30% leave mix) need a person even when the policy is clear.,red,,,,
+2 Workflow,Sticky,S4 Check personal data | AI opportunities,O8,light_green,,,,
+2 Workflow,Sticky,S5 Reply and log | Today,"Write the answer, paste a link, log in ServiceNow.",gray,,,,
+2 Workflow,Sticky,S5 Reply and log | Pain,18 min per question; the same 20 answers retyped weekly; peaks in March and November swamp the team.,red,,,,
+2 Workflow,Sticky,S5 Reply and log | AI opportunities,"O1, O5, O10",light_green,,,,
+2 Workflow,Sticky,S6 Sensitive and legal cases | Today,"Bereavement, harassment, medical, layoff, grievance, resignation, legal questions arrive in the same queue.",gray,,,,
+2 Workflow,Sticky,S6 Sensitive and legal cases | Pain,"Wait behind routine questions; employee has to repeat context; Legal fears answers read as promises, especially in the UK.",red,,,,
+2 Workflow,Sticky,S6 Sensitive and legal cases | AI opportunities,"O6, O7, O14",light_green,,,,
+2 Workflow,Sticky,S7 Policy updates | Today,~10 updates a quarter uploaded by country leads with no common format or publishing owner.,gray,,,,
+2 Workflow,Sticky,S7 Policy updates | Pain,Nobody knows which version is live; old copies keep circulating in HRBP snippets.,red,,,,
+2 Workflow,Sticky,S7 Policy updates | AI opportunities,"O4, O11",light_green,,,,
+3 Opportunities,Card,O1 Grounded policy answers in Teams,"Answer routine leave, pay-date, benefits and travel questions from the policy text with a link to the exact section. Why AI: Understanding free-text questions (incl. paraphrase and Hinglish) and summarising a matched section is a core LLM strength when grounded in retrieved text. Evidence: 80% of the question mix is routine policy; 18 min each Stage: S1, S5",blue,5,4,20,Do first (MVP)
+3 Opportunities,Card,O2 Profile-aware eligibility filter,"Use the Workday profile (country, grade, employment type, service) to filter documents before search and pick the right table row. Why AI: Mostly deterministic code, not AI; that is the point: the model never chooses the country. Evidence: 8% wrong answers from wrong country; 700 contractors Stage: S2",blue,5,5,25,Do first (MVP)
+3 Opportunities,Card,O3 Version-aware retrieval,"Search only versions live today; when two are live (travel transition), show both with when each applies. Why AI: Retrieval ranking (keyword + embeddings) over sections; date logic is rules. Evidence: superseded India leave v3.1 (45-day carry-forward) vs live v3.2 (30 days); UK travel v4/v5 Stage: S3",blue,5,4,20,Do first (MVP)
+3 Opportunities,Card,O4 Policy publishing with metadata,"Country leads publish through a short form: owner, version, audience, effective dates, what changed; old version superseded automatically. Why AI: AI can propose metadata and a change summary from the new file; owner approves. Evidence: 10 updates a quarter, no common format, no owner Stage: S7",blue,4,4,16,Do first (MVP)
+3 Opportunities,Card,O5 Answer verification guard,Before showing an answer: must cite a retrieved section; every number must appear in it; no promise or legal-advice wording; else fall back to quoting. Why AI: An automated check on the model's output; rules plus simple matching. Evidence: Legal: 'the bot said I get 10 more days' Stage: S5,blue,5,5,25,Do first (MVP)
+3 Opportunities,Card,O6 Sensitive-topic triage and hand-off,"Detect bereavement, harassment, medical, legal, layoff, resignation, grievance and pay problems before any AI call; create a ticket for the right queue with a short summary the employee approves. Why AI: Rules first (high recall, auditable); a classifier can be added later for paraphrases. Evidence: 10% of volume is sensitive; employees avoid asking Stage: S6",blue,5,4,20,Do first (MVP)
+3 Opportunities,Card,O7 Privacy redaction,"Strip PAN, NI, SSN, phone, email and health terms from logs and ticket summaries; sensitive text never sent to a model. Why AI: Pattern matching; NER later. Evidence: UK GDPR, India DPDP; employees share health and family details Stage: S6",blue,4,5,20,Do first (MVP)
+3 Opportunities,Card,O8 Leave balance lookup (Workday),Answer 'how many days do I have left?' from the employee's own Workday record. Why AI: Read-only API call plus the policy answer; needs Workday integration and security review. Evidence: Leave is 30% of volume and often needs the balance Stage: S4,blue,4,3,12,Plan next
+3 Opportunities,Card,O9 Hindi / Hinglish answers,Understand and reply in Hindi or mixed Hindi-English. Why AI: Multilingual LLMs handle this well; retrieval needs synonym expansion. Evidence: 10% of India questions Stage: S1,blue,3,4,12,Quick add-on
+3 Opportunities,Card,O10 HRBP draft replies for the remaining queue,"For questions still handled by HRBPs, draft a cited reply for them to edit. Why AI: Same engine, human in the loop. Evidence: HRBPs worry about losing context; keeps them in control Stage: S5",blue,3,4,12,Quick add-on
+3 Opportunities,Card,O11 Content gap and conflict detector,"Report questions with no answer, thumbs-down answers, and contradictions between countries or versions to the policy owner. Why AI: Clustering of unanswered questions plus comparison of sections. Evidence: 8% audit; HRBP context ('client-specific travel rule') Stage: S7",blue,3,4,12,Quick add-on
+3 Opportunities,Card,O12 Proactive peak nudges,"Before March and November, message employees with the deadlines (tax proofs, encashment, open enrolment). Why AI: Mostly scheduling; AI optional. Evidence: peaks of 4,000 a month Stage: S1",blue,3,4,12,Quick add-on
+3 Opportunities,Card,O13 Auto-answer from old tickets,Train or retrieve from past ServiceNow replies. Why AI: Easy to build but old replies include the 8% wrong answers and personal data. Evidence: audit found wrong-country and outdated answers Stage: S3,blue,2,2,4,Park / avoid
+3 Opportunities,Card,O14 AI handles grievances or gives legal opinions,"Let the assistant counsel on harassment, layoffs or legal rights. Why AI: Technically possible; unacceptable risk and breaks trust and Legal's red line. Evidence: Legal and employee survey Stage: S6",blue,1,2,2,Park / avoid
+3 Opportunities,Card,O15 Sentiment-based attrition prediction from chats,Predict who might resign from what they ask. Why AI: Possible but a privacy breach; employees would stop asking. Evidence: employees want private answers Stage: S6,blue,1,2,2,Park / avoid
+4 Scoring,Sticky,Scoring rubric,"Impact (1-5): share of question volume + cost of a wrong answer avoided + fit to the CHRO, Legal and privacy goals. Feasibility (1-5): data available (policies, Workday fields) + maturity of the technique + cost of being wrong + build effort for 4 engineers in 2-week sprints. Score = Impact x Feasibility (max 25). Do first = Impact >= 4 and Feasibility >= 4.",yellow,,,,
+5 Impact x Feasibility 2x2,Sticky,O2 Profile-aware eligibility filter,I5 x F5 = 25,green,5,5,25,Do first (MVP)
+5 Impact x Feasibility 2x2,Sticky,O5 Answer verification guard,I5 x F5 = 25,green,5,5,25,Do first (MVP)
+5 Impact x Feasibility 2x2,Sticky,O1 Grounded policy answers in Teams,I5 x F4 = 20,green,5,4,20,Do first (MVP)
+5 Impact x Feasibility 2x2,Sticky,O3 Version-aware retrieval,I5 x F4 = 20,green,5,4,20,Do first (MVP)
+5 Impact x Feasibility 2x2,Sticky,O6 Sensitive-topic triage and hand-off,I5 x F4 = 20,green,5,4,20,Do first (MVP)
+5 Impact x Feasibility 2x2,Sticky,O7 Privacy redaction,I4 x F5 = 20,green,4,5,20,Do first (MVP)
+5 Impact x Feasibility 2x2,Sticky,O4 Policy publishing with metadata,I4 x F4 = 16,green,4,4,16,Do first (MVP)
+5 Impact x Feasibility 2x2,Sticky,O8 Leave balance lookup (Workday),I4 x F3 = 12,yellow,4,3,12,Plan next
+5 Impact x Feasibility 2x2,Sticky,O9 Hindi / Hinglish answers,I3 x F4 = 12,light_blue,3,4,12,Quick add-on
+5 Impact x Feasibility 2x2,Sticky,O10 HRBP draft replies for the remaining queue,I3 x F4 = 12,light_blue,3,4,12,Quick add-on
+5 Impact x Feasibility 2x2,Sticky,O11 Content gap and conflict detector,I3 x F4 = 12,light_blue,3,4,12,Quick add-on
+5 Impact x Feasibility 2x2,Sticky,O12 Proactive peak nudges,I3 x F4 = 12,light_blue,3,4,12,Quick add-on
+5 Impact x Feasibility 2x2,Sticky,O13 Auto-answer from old tickets,I2 x F2 = 4,gray,2,2,4,Park / avoid
+5 Impact x Feasibility 2x2,Sticky,O14 AI handles grievances or gives legal opinions,I1 x F2 = 2,gray,1,2,2,Park / avoid
+5 Impact x Feasibility 2x2,Sticky,O15 Sentiment-based attrition prediction from chats,I1 x F2 = 2,gray,1,2,2,Park / avoid
+6 Should / Should NOT,Sticky,Should do,Answer only from the employee's own country (plus global) policies that are live today.,green,,,,
+6 Should / Should NOT,Sticky,Should do,"Take country, grade and employment type from Workday, never from the chat.",green,,,,
+6 Should / Should NOT,Sticky,Should do,"Link every answer to the exact policy section, version and owner.",green,,,,
+6 Should / Should NOT,Sticky,Should do,"Show both versions, labelled, when two are live (travel transition).",green,,,,
+6 Should / Should NOT,Sticky,Should do,"Hand sensitive, legal and pay-problem questions to the right HR queue with a summary, and let the employee choose to send it.",green,,,,
+6 Should / Should NOT,Sticky,Should do,Offer the anonymous Speak Up line for harassment and grievances.,green,,,,
+6 Should / Should NOT,Sticky,Should do,Say 'I don't know' and offer an HR partner when the library has no answer.,green,,,,
+6 Should / Should NOT,Sticky,Should do,Answer in Hindi/Hinglish when asked that way.,green,,,,
+6 Should / Should NOT,Sticky,Should NOT do,Give legal advice or an opinion on whether something is legal.,red,,,,
+6 Should / Should NOT,Sticky,Should NOT do,Promise or confirm an entitlement ('I confirm you get 10 more days').,red,,,,
+6 Should / Should NOT,Sticky,Should NOT do,Answer from another country's policy or a superseded version.,red,,,,
+6 Should / Should NOT,Sticky,Should NOT do,"Send sensitive messages (health, grievance, bereavement) to any AI model.",red,,,,
+6 Should / Should NOT,Sticky,Should NOT do,"Read or reveal anyone else's data (colleague's salary, manager's rating).",red,,,,
+6 Should / Should NOT,Sticky,Should NOT do,"Make decisions: approve leave, change pay, enrol in benefits.",red,,,,
+6 Should / Should NOT,Sticky,Should NOT do,Learn from or store chat content in model training.,red,,,,
+6 Should / Should NOT,Sticky,Should NOT do,Replace the HR partner relationship for sensitive cases.,red,,,,
+7 Feature to AI to Guardrails,Table row,F1 Profile + eligibility filter,"From: O2, O3 | AI capability: none (deterministic filter) + BM25/embedding retrieval | Inputs: Workday profile; policy library with metadata | Output: Only live, own-country sections; matching table row | Guardrails: Country, audience and effective dates are hard filters in code; superseded never searchable | Human in loop: Country lead owns metadata | Test: 100% of answers cite own-country, live sections (launch gate)",violet,,,,
+7 Feature to AI to Guardrails,Table row,F2 Safety triage + hand-off,"From: O6, O7 | AI capability: Rules (regex, Hindi terms) before any model; later a classifier | Inputs: Question text | Output: Route (answer / hand off / payroll / IT / refuse) + ticket with redacted summary | Guardrails: Sensitive text never sent to a model; crisis auto-routed with emergency numbers; ER tickets restricted | Human in loop: Employee approves the ticket; HRBP owns the case | Test: 100% of sensitive, legal and pay-problem test questions handed off (launch gate)",violet,,,,
+7 Feature to AI to Guardrails,Table row,F3 Grounded answer + verification,"From: O1, O5, O9 | AI capability: Grok drafts JSON (answer + citations); Claude Haiku fallback; extractive fallback | Inputs: Question + eligible sections + profile | Output: Short answer, section links, non-commitment wording | Guardrails: Must cite; numbers must appear in cited text; no promise or legal phrases; else quote the policy | Human in loop: Thumbs down goes to the policy owner | Test: Grounding checks 100%; facts >= 90% on 80 labelled questions",violet,,,,
+7 Feature to AI to Guardrails,Table row,F4 Policy publishing + gap report,"From: O4, O11 | AI capability: Metadata suggestion + change summary; clustering of unanswered questions | Inputs: New policy file; logs of not-found and thumbs-down | Output: Published version with owner and dates; weekly gap report per country | Guardrails: Nothing goes live without owner approval; OCR text reviewed for scanned PDFs | Human in loop: Country HR lead approves | Test: Zero superseded documents live; gap report reviewed weekly",violet,,,,
+7 Feature to AI to Guardrails,Table row,Next (post-MVP),"From: O8, O10, O12 | AI capability: Workday read API; HRBP draft replies; peak nudges | Inputs: Employee's own record | Output: Personal balance answers; HRBP drafts | Guardrails: Read-only, own record only, Security review | Human in loop: HRBP edits drafts | Test: Run after MVP meets the 60% deflection target",violet,,,,
+8 Guardrails & risks,Sticky,Global guardrail,Grounded only: every answer cites a live section from the employee's own country.,orange,,,,
+8 Guardrails & risks,Sticky,Global guardrail,Sensitive first: safety rules run before any AI and cannot be overridden by the model.,orange,,,,
+8 Guardrails & risks,Sticky,Global guardrail,"No commitments, no legal advice: answers are information; the contract and policy prevail (UK footer).",orange,,,,
+8 Guardrails & risks,Sticky,Global guardrail,Privacy by design: redaction before logging; approved providers only; no training on HR data; UK GDPR and DPDP retention limits.,orange,,,,
+8 Guardrails & risks,Sticky,Global guardrail,Human choice: the employee sees who will read a hand-off and can choose anonymity (Speak Up).,orange,,,,
+8 Guardrails & risks,Sticky,Global guardrail,Eval gate: a failing guardrail eval blocks deployment.,orange,,,,
+8 Guardrails & risks,Sticky,Risk: Wrong-country or outdated answer,Mitigation: Hard eligibility filter + version metadata + 100% gate in the eval,orange,,,,
+8 Guardrails & risks,Sticky,Risk: Answer read as a promise (UK),Mitigation: Non-commitment wording; 'can't confirm' for confirmation requests; Legal-approved footer,orange,,,,
+8 Guardrails & risks,Sticky,Risk: Sensitive message missed and answered by AI,Mitigation: Broad rules tuned for recall; weekly review of hand-off misses; crisis auto-escalation,orange,,,,
+8 Guardrails & risks,Sticky,Risk: Personal data leaks to logs or the model provider,Mitigation: Redaction; sensitive text never sent; approved vendor with zero retention,orange,,,,
+8 Guardrails & risks,Sticky,Risk: HRBPs lose context and trust,Mitigation: Hand-off summary; HRBP draft mode; gap reports let them add client-specific rules,orange,,,,
+8 Guardrails & risks,Sticky,Risk: Country leads don't keep content current,Mitigation: Publishing form with owner and dates; stale-content alerts; usage stats per document,orange,,,,
+9 Hand-off,Sticky,Step 3 PRD,"North Star candidate = % of policy questions resolved correctly without an HR partner (target 60% in 6 months), counted only when no hand-off follows within 7 days. Supporting: HRBP time on repeat questions (40% → 20%), wrong-answer rate (8% → <1%), sensitive hand-off recall (100%), time to first answer (1.5 days → seconds), employee CSAT.",yellow,,,,
