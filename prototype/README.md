@@ -21,7 +21,7 @@ Without any API key the app runs in **grounded extractive mode**: it quotes the 
 | Variable | Purpose |
 |---|---|
 | `XAI_API_KEY` | Primary model: xAI Grok (`XAI_MODEL`, default `grok-4-fast-non-reasoning`) |
-| `GROQ_API_KEY` | Groq (`GROQ_MODEL`, default `openai/gpt-oss-120b`); used after Grok, before Claude |
+| `GROQ_API_KEY` | Groq (`GROQ_MODEL`, default `openai/gpt-oss-120b`; if rate-limited, `GROQ_FALLBACK_MODEL`, default `llama-3.3-70b-versatile`); used after Grok, before Claude |
 | `ANTHROPIC_API_KEY` | Fallback model: Claude (`CLAUDE_MODEL`, default `claude-haiku-5-5`) |
 | `DEMO_TODAY` | The date the policy library is evaluated on (default `2026-10-27`) |
 

@@ -6,6 +6,9 @@ const Anthropic = require("@anthropic-ai/sdk");
 
 const XAI_MODEL = process.env.XAI_MODEL || "grok-4-fast-non-reasoning";
 const GROQ_MODEL = process.env.GROQ_MODEL || "openai/gpt-oss-120b";
+// Second Groq model, tried when the first is rate-limited (the free tier allows only a few
+// answers a minute per model). Set GROQ_FALLBACK_MODEL to "" to turn this off.
+const GROQ_FALLBACK_MODEL = process.env.GROQ_FALLBACK_MODEL ?? "llama-3.3-70b-versatile";
 const CLAUDE_MODEL = process.env.CLAUDE_MODEL || "claude-haiku-5-5";
 const TIMEOUT_MS = Number(process.env.LLM_TIMEOUT_MS || 12000);
 
@@ -34,7 +37,7 @@ function any() {
 // The configured chain in order, for the UI badge: e.g. ["openai/gpt-oss-120b", "claude-haiku-5-5"].
 function chain() {
   const a = available();
-  return [a.grok && XAI_MODEL, a.groq && GROQ_MODEL, a.claude && CLAUDE_MODEL].filter(Boolean);
+  return [a.grok && XAI_MODEL, a.groq && GROQ_MODEL, a.groq && GROQ_FALLBACK_MODEL, a.claude && CLAUDE_MODEL].filter(Boolean);
 }
 
 function costOf(model, usage) {
@@ -75,14 +78,14 @@ async function callOpenAICompatible({ url, key, model, provider, extra = {} }, s
 const callGrok = (system, user) =>
   callOpenAICompatible({ url: "https://api.x.ai/v1/chat/completions", key: process.env.XAI_API_KEY, model: XAI_MODEL, provider: "xAI" }, system, user);
 
-const callGroq = (system, user) =>
+const callGroq = (system, user, model = GROQ_MODEL) =>
   callOpenAICompatible(
     {
       url: "https://api.groq.com/openai/v1/chat/completions",
       key: process.env.GROQ_API_KEY,
-      model: GROQ_MODEL,
+      model,
       provider: "Groq",
-      extra: GROQ_MODEL.startsWith("openai/gpt-oss") ? { reasoning_effort: "low" } : {},
+      extra: model.startsWith("openai/gpt-oss") ? { reasoning_effort: "low" } : {},
     },
     system,
     user
@@ -117,11 +120,13 @@ async function complete(system, user, schema) {
     }
   }
   if (avail.groq) {
-    try {
-      const r = await callGroq(system, user);
-      return { ...r, cost_usd: costOf(r.model, r.usage), errors };
-    } catch (e) {
-      errors.push(`groq: ${e.message}`);
+    for (const model of [GROQ_MODEL, GROQ_FALLBACK_MODEL].filter(Boolean)) {
+      try {
+        const r = await callGroq(system, user, model);
+        return { ...r, cost_usd: costOf(r.model, r.usage), errors };
+      } catch (e) {
+        errors.push(`groq ${model}: ${e.message}`);
+      }
     }
   }
   if (avail.claude) {
@@ -149,4 +154,4 @@ function parseJson(text) {
   }
 }
 
-module.exports = { complete, parseJson, available, any, chain, XAI_MODEL, GROQ_MODEL, CLAUDE_MODEL, PRICES };
+module.exports = { complete, parseJson, available, any, chain, XAI_MODEL, GROQ_MODEL, GROQ_FALLBACK_MODEL, CLAUDE_MODEL, PRICES };
