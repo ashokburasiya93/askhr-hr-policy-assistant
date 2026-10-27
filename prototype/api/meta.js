@@ -2,11 +2,11 @@ const { library, employees, DEMO_TODAY, getProfile } = require("../lib/assistant
 const llm = require("../lib/llm");
 
 module.exports = async (req, res) => {
-  const avail = llm.available();
+  const chain = llm.chain();
   res.status(200).json({
     today: DEMO_TODAY,
-    mode: avail.grok || avail.claude ? "model" : "extractive",
-    models: { primary: avail.grok ? llm.XAI_MODEL : null, fallback: avail.claude ? llm.CLAUDE_MODEL : null },
+    mode: chain.length ? "model" : "extractive",
+    models: { primary: chain[0] || null, fallback: chain[1] || null, chain },
     employees: employees.map((e) => getProfile(e.id, DEMO_TODAY)),
     library: library(),
   });

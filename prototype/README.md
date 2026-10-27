@@ -16,11 +16,12 @@ npm run build     # builds the policy index and runs every eval; fails if a guar
 npm run dev       # http://localhost:3000
 ```
 
-Without any API key the app runs in **grounded extractive mode**: it quotes the matching policy text (personalised to grade or length of service) and never calls a model. To turn on generated answers, set one or both keys:
+Without any API key the app runs in **grounded extractive mode**: it quotes the matching policy text (personalised to grade or length of service) and never calls a model. To turn on generated answers, set one or more keys. The app tries them in order (Grok, then Groq, then Claude) and uses only those that are set:
 
 | Variable | Purpose |
 |---|---|
 | `XAI_API_KEY` | Primary model: xAI Grok (`XAI_MODEL`, default `grok-4-fast-non-reasoning`) |
+| `GROQ_API_KEY` | Groq (`GROQ_MODEL`, default `openai/gpt-oss-120b`); used after Grok, before Claude |
 | `ANTHROPIC_API_KEY` | Fallback model: Claude (`CLAUDE_MODEL`, default `claude-haiku-5-5`) |
 | `DEMO_TODAY` | The date the policy library is evaluated on (default `2026-10-27`) |
 
@@ -42,7 +43,7 @@ Employee message (Teams)
   -> 4. Retrieval: only sections that are live today, for the employee's country (+ global) and
         employment type; superseded versions are removed BEFORE ranking (BM25 + Hindi/Hinglish synonyms)
         -> nothing relevant found: say so, offer HR partner, never guess
-  -> 5. Answer: Grok (fallback Claude) writes a short answer as JSON with section citations,
+  -> 5. Answer: Grok, then Groq, then Claude writes a short answer as JSON with section citations,
         or grounded extraction when no model is configured
   -> 6. Verification: cites >= 1 retrieved section; only cites retrieved sections; every number appears
         in a cited section; no promise; no legal advice. Any failure -> fall back to the extractive answer
@@ -93,7 +94,7 @@ No dataset came with the brief, so the following was created and is documented h
 ```
 api/            ask.js, meta.js, handoff.js (Vercel functions)
 lib/            assistant.js (orchestration), triage.js (safety rules + redaction),
-                retrieve.js (eligibility filter + BM25), llm.js (Grok primary, Claude fallback)
+                retrieve.js (eligibility filter + BM25), llm.js (Grok, Groq, Claude in order)
 lib/generated/  corpus.js (built from data/ by scripts/build-corpus.js)
 public/         index.html, app.js, styles.css, eval results
 eval/           question sets, eval runner, model guard test

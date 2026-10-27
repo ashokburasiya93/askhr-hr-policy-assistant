@@ -362,7 +362,7 @@ async function ask({ question, employeeId, history = [], useModel = true }) {
   let gen = null, mode = "extractive", modelInfo = null, fallbackReason = null;
 
   // 4. Generate with a model when configured; otherwise (or on any failure) extract.
-  if (useModel && (llm.available().grok || llm.available().claude)) {
+  if (useModel && llm.any()) {
     trace.sent_to_model = true;
     const r = await llm.complete(SYSTEM, userPrompt(question, profile, top, history), SCHEMA);
     if (r && !r.failed) {
